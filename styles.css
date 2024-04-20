@@ -1,0 +1,14 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  color: white;
+}
+.enter {
+  height: 100vh;
+  width: auto;
+  background-color: #023047;
+  color: white;
+}
