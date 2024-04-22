@@ -183,6 +183,13 @@ legend{
   font-weight: bold;
 }
 
+/*Paginas depositar y retirar*/
+
+.div_money{
+  display: flex;
+  flex-direction: column;
+}
+
 
 
 
