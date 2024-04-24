@@ -7,7 +7,8 @@ interface workAccount
 
 }
 
-class Account {
+class Account 
+{
 
     private $numAccount;
     private $userName;
@@ -47,26 +48,20 @@ class Account {
         return $this->numAccount;  
     }
 
-   public function getUserName()
-   {
-    return $this->userName;
- }
+    public function getUserName()
+    {
+        return $this->userName;
+    }
 
-public function getPassword()
-{
-    return $this->password;
-}
-
-public function getTypeAccount()
-{
-    return $this->typeAccount;
-}
-
-
+    public function getTypeAccount()
+    {
+        return $this->typeAccount;
+    }
 
 }
 
 class AccountSaving extends Account implements workAccount{
+
     private $balance;
 
     public function  __construct($numAccount, $userName, $password, $typeAccount){
@@ -85,16 +80,21 @@ class AccountSaving extends Account implements workAccount{
 
     public function withdraw($amount)
     {
+
         if($amount <= $this->balance){
             $this->balance -= $amount;
         }
+
     }
 
     public function getBalance(){
+
         return $this->balance;
+
     }
 
-    public function Percentage(){
+    public function Percentage()
+    {
         
         $startDate = strtotime('2022-01-01');
         $endDate = strtotime('2023-12-31');
@@ -104,12 +104,13 @@ class AccountSaving extends Account implements workAccount{
         if($day == '01'){
             $this->balance += $this->balance*0.05;
         }
+
     }
 }
 
 class AccountCurrent extends Account implements workAccount{
+
     private $balance;
-    private $percentage;
 
     public function  __construct($numAccount, $userName, $password, $typeAccount){
         parent::__construct($numAccount,$userName,$password, $typeAccount);
@@ -129,7 +130,7 @@ class AccountCurrent extends Account implements workAccount{
     {
         $lost = ($amount*4)/1000;
         if(($this->balance - $amount) <= -300.000){
-            $this->balance -= $amount + $lost;
+            $this->balance -= $amount +$lost;
         }else{
             $messague = 'Usted excedio su saldo, tendra un sobregiro de $ -300,000';
         }   
