@@ -69,6 +69,8 @@ class AccountSaving extends Account implements workAccount{
 
     private $balance;
 
+    private static $instance;
+
     public function  __construct($numAccount, $userName, $password, $typeAccount){
         parent::__construct($numAccount,$userName,$password, $typeAccount);
 
@@ -76,6 +78,8 @@ class AccountSaving extends Account implements workAccount{
         $this->userName = $userName;
         $this->password = $password;
         $this->typeAccount = $typeAccount;
+        $this->balance = 200;
+
     }
 
     public function deposit($amount)
@@ -111,11 +115,28 @@ class AccountSaving extends Account implements workAccount{
         }
 
     }
+
+    public static function getInstance($numAccount, $userName, $password, $typeAccount) {
+        if (!isset(self::$instance)) {
+            self::$instance = new self($numAccount, $userName, $password, $typeAccount);
+        }
+        return self::$instance;
+    }
+
+    public function toString() {
+        return "Número de cuenta: " . $this->numAccount . ", " . 
+               "Nombre de usuario: " . $this->userName . ", " . 
+               "Contraseña: " . $this->password . ", " . 
+               "Tipo de cuenta: " . $this->typeAccount . ", " . 
+               "Saldo: " . $this->balance;
+    }
 }
 
 class AccountCurrent extends Account implements workAccount{
 
     private $balance;
+
+    private  static $instance;
 
     public function  __construct($numAccount, $userName, $password, $typeAccount){
         parent::__construct($numAccount,$userName,$password, $typeAccount);
@@ -124,6 +145,7 @@ class AccountCurrent extends Account implements workAccount{
         $this->userName = $userName;
         $this->password = $password;
         $this->typeAccount = $typeAccount;
+        $this->balance = 200;
     }
 
     public function deposit($amount)
@@ -145,27 +167,98 @@ class AccountCurrent extends Account implements workAccount{
     public function getBalance(){
         return $this->balance;
     }
+
+    public static function getInstance($numAccount, $userName, $password, $typeAccount) {
+        if (!isset(self::$instance)) {
+            self::$instance = new self($numAccount, $userName, $password, $typeAccount);
+        }
+        return self::$instance;
+    }
+
+    public function toString() {
+        return "Número de cuenta: " . $this->numAccount . ", " . 
+               "Nombre de usuario: " . $this->userName . ", " . 
+               "Contraseña: " . $this->password . ", " . 
+               "Tipo de cuenta: " . $this->typeAccount . ", " . 
+               "Saldo: " . $this->balance;
+    }
+
 }
 
-if($_SERVER["REQUEST_METHOD"] == "POST")
+function __Register() 
 {
-    $numAccount = $_POST["numAccount"];
-    $typeAccount = $_POST["typeAccount"];
-    $userName = $_POST["userName"];
-    $password = $_POST["password"];
-    echo "Número de cuenta: " . $numAccount . ", Tipo de cuenta: " . $typeAccount . ", Nombre de usuario: " . $userName . ", Contraseña: " . $password;
+        $paginaAnterior = isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : "Desconocido";
 
+    if (strpos($paginaAnterior, "register.php") !== false) {
+        echo "Guardando datos de cuenta";
 
-    $startDate = strtotime('2022-01-01');
-    $endDate = strtotime('2023-12-31');
-    $randomDate = rand($startDate,$endDate);
-    $randomDateS = date('Y-m-d',$randomDate);
-    $day = date('d',$randomDate);
-    echo "\n".$randomDateS. "  ". $day;
+        $numAccount = $_POST["numAccount"];
+        $typeAccount = $_POST["typeAccount"];
+        $userName = $_POST["userName"];
+        $password = $_POST["password"];
 
-    
-    // if($typeAccount == "Cuenta corriente"){
-    //     $AccountCurrent = new AccountCurrent($numAccount, $userName, $password, $typeAccount);
-    // }
+        if ($_POST["typeAccount"] == 'Cuenta corriente') {
+            $AccountCurrent =  new AccountCurrent(  $numAccount, $userName, $password, $typeAccount);
+            header('Location: login.php?numAccount=' . urlencode($AccountCurrent->getNumAccount()) . '&userName=' . urlencode($AccountCurrent->getUserName()) . '&saldo=' . urlencode($AccountCurrent->getBalance()) . '&typeAccount=' . urlencode($AccountCurrent->getTypeAccount()) . '&password=' . urlencode($AccountCurrent->getPassword()));
+            exit();
+            return $AccountCurrent;
+        } else {
+            $AccountSaving =  new AccountSaving(  $numAccount,$userName,$password,$typeAccount);
+            header('Location: login.php?numAccount=' . urlencode($AccountSaving->getNumAccount()) . '&userName=' . urlencode($AccountSaving->getUserName()) . '&saldo=' . urlencode($AccountSaving->getBalance()) . '&typeAccount=' . urlencode($AccountSaving->getTypeAccount()) . '&password=' . urlencode($AccountSaving->getPassword()));
+            exit();
+            return $AccountSaving;
+        }
+
+    }
 }
+
+function __login($AccountState){
+    $paginaAnterior = isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : "Desconocido";
+    if (strpos($paginaAnterior, "login.php") !== false)
+    {
+        $userNameL = $_POST["userNameL"] ;
+        $passwordL = $_POST["passwordL"] ;
+
+        echo $userNameL." ". $passwordL;
+        $numAccountO = $_POST["numAccountC"] ;
+        $userNameO = $_POST["userNameC"] ;
+        $balanceO = $_POST["balanceC"] ;
+        $typeAccountO = $_POST["typeAccountC"] ;
+        $passwordO = $_POST["passwordC"] ;
+        if($userNameL == $userNameO && $passwordL == $passwordO){
+            if($typeAccountO == "Cuenta Corriente"){
+                $AccountState = new AccountCurrent($numAccountO, $userNameO, $passwordO, $typeAccountO);
+                header('Location: balance.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
+                exit(); 
+           }else{
+                $AccountState = new AccountSaving($numAccountO, $userNameO, $passwordO, $typeAccountO);
+                header('Location: balance.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
+                exit(); 
+               }
+        }else{
+            if($typeAccountO == "Cuenta Corriente"){
+                $AccountState = new AccountCurrent($numAccountO, $userNameO, $passwordO, $typeAccountO);
+                header('Location: login.php?alert=incorrecto&numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
+                exit(); 
+           }else{
+                $AccountState = new AccountSaving($numAccountO, $userNameO, $passwordO, $typeAccountO);
+                header('Location: login.php?alert=incorrecto&numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
+                exit(); 
+               }
+
+    }
+
+}
+}
+
+
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+    $AccountSTate = __Register();
+    __login($AccountSTate);
+}
+
+
+
 ?>
+
+

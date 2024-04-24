@@ -16,10 +16,21 @@
         </section>
         <section class="section_user">
           <h2 class="data_user">Usuario</h2>
-          <input class="data_user_input" type="text" />
+          <input name="userNameL"class="data_user_input" type="text" />
           <h2 class="data_user">Contraseña</h2>
-          <input class="data_user_input" type="password" />
-          <button class="data_user_button">Iniciar sesión</button>
+          <input name="passwordL"class="data_user_input" type="password" />
+          <input type="hidden" name="numAccountC" value="<?php echo isset($_GET['numAccount']) ? htmlspecialchars($_GET['numAccount']) : ''; ?>">
+          <input type="hidden" name="userNameC" value="<?php echo isset($_GET['userName']) ? htmlspecialchars($_GET['userName']) : ''; ?>">
+          <input type="hidden" name="balanceC" value="<?php echo isset($_GET['saldo']) ? htmlspecialchars($_GET['saldo']) : ''; ?>">
+          <input type="hidden" name="typeAccountC" value="<?php echo isset($_GET['typeAccount']) ? htmlspecialchars($_GET['typeAccount']) : ''; ?>">
+          <input type="hidden" name="passwordC" value="<?php echo isset($_GET['password']) ? htmlspecialchars($_GET['password']) : ''; ?>">
+          <?php
+           // Verificar si se ha enviado un mensaje de alerta
+          if (isset($_GET['alert']) && $_GET['alert'] === 'incorrecto') {
+            echo '<div style="color: red; margin-bottom: 10px; font-weight: bold;" class="alert">Usuario o contraseña incorrectos</div>';
+          }
+          ?>
+         <input  type="submit" value= "Iniciar Sesion" class="data_user_button">
           <h3 class="data_user">
             ¿No tienes una cuenta?<a
               class="section_register"
@@ -32,3 +43,4 @@
     </form>
   </body>
 </html>
+

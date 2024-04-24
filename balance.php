@@ -24,11 +24,11 @@
               <table class="Account_info_user_table">
                 <tr>
                   <td>Número de cuenta: </td>
-                  <td>_________</td>
+                  <td><?php echo htmlspecialchars($_GET['numAccount']); ?></td>
                 </tr>
                 <tr>
                   <td>Nombre de usuario: </td>
-                  <td>_________</td>
+                  <td><?php echo htmlspecialchars($_GET['userName']); ?></td>
                 </tr>
               </table>
             </fieldset>
@@ -40,7 +40,7 @@
               <table class="balance_account_user_table">
                 <tr>
                   <td>Total: </td>
-                  <td>_________</td>
+                  <td><?php echo htmlspecialchars($_GET['saldo']); ?></td>
                 </tr>
               </table>
             </fieldset>
@@ -49,7 +49,7 @@
               <table>
                <tr>
                  <td>Total: </td>
-                 <td>_________</td>
+                 <td><?php echo htmlspecialchars($_GET['saldo']); ?></td>
                </tr>
              </table>
             </fieldset>
@@ -58,3 +58,11 @@
    </form>
   </body>
 </html>
+
+<?php
+echo htmlspecialchars($_GET['numAccount']); 
+
+echo htmlspecialchars($_GET['numAccount']); 
+
+
+?>
