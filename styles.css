@@ -188,9 +188,57 @@ legend{
 .div_money{
   display: flex;
   flex-direction: column;
+  align-items: left;
+  padding-right: 50px;
+  padding-left: 50px;
+  height: 90vh;
 }
-
-
-
+.div_money_title{
+    margin-bottom: 30px;
+    font-size: 80px;
+}
+.div_money_table2{
+    gap:60px;
+    border-collapse: collapse;
+    border: 3px solid #FB8500;
+    font-size: 60px;
+}
+.div_money_table2_tr, .div_money_table2_tr_clear{
+    height: 20vh;
+    margin-bottom: 20px;
+    border: 4px solid #FB8500;
+    background-color: #FFB561;
+    font-weight: bold;
+    color: #023047;
+}
+.div_money_table2_tr_clear{
+    background-color: #FFD97B;
+}
+.div_money_table2_tr_select{
+    height: 10vh;
+    width: 50vh;
+    align-self: left;
+    border: 2px solid #FB8500;
+    border-radius: 10px;
+    background-color: #FFB561 ;
+    font-size: 30px;
+}
+.section_value{
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    place-items: center;
+    color: #023047;
+}
+.section_value_move{
+    height: 10vh;
+    width: 40vh;
+    font-size:30px ;
+    font-weight: bold;
+    background-color: #FB8500;
+    border: 2px solid  #FB8500;
+    border-radius: 10px;
+    
+}
 
 

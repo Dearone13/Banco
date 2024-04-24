@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="styles.css">
-    <title>Retirar</title>
+    <title>Depositar</title>
   </head>
   <body class="body_balance">
    <form class="form_account">
@@ -18,27 +18,28 @@
            </ul>
     </div>
     <div class="div_money">
-      <h1 class="div_money_title">Retiro</h1>
-      <table class="div_money_table">
-        <tr>
+      <h1 class="div_money_title">Depósito</h1>
+      <table class="div_money_table2">
+        <tr class="div_money_table2_tr">
           <td>Número de cuenta: </td>
           <td></td>
         </tr>
-        <tr>
+        <tr  class="div_money_table2_tr_clear">
           <td>Nombre de usuario: </td>
           <td></td>
         </tr>
-        <tr>
+        <tr  class="div_money_table2_tr">
           <td>Tipo de cuenta: </td>
-          <td><select>
+          <td>
+            <select class="div_money_table2_tr_select">
             <option>Cuenta Corriente</option>
             <option>Cuenta de ahorro</option>
           </select></td>
         </tr>
       </table>
-      <section> 
-        <select>
-          <option value="" selected>Retirar +</option>
+      <section class="section_value"> 
+        <select class="section_value_move">
+          <option value="" selected>Agregar +</option>
           <option>$10.000</option>
           <option>$100.000</option>
           <option>$300.000</option>
@@ -46,9 +47,9 @@
           <option>$1.000.000</option>
           <option>$1.500.000</option>
         </select>
-        <button>Cancelar</button>
+        <button class="section_value_move">Cancelar</button>
       </section>
-     
+
     </div>
    </form>
   </body>

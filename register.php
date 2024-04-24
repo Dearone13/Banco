@@ -8,7 +8,7 @@
     <title>Register</title>
   </head>
   <body>
-    <form class="enter" action="">
+    <form class="enter" action="Cuenta.php" method ="post">
       <div class="enter_div">
         <section class="section">
           <h1 class="section_title">Banco HBC.</h1>
@@ -16,7 +16,7 @@
         </section>
         <section class="section_user">
           <h2>Número de cuenta</h2>
-          <input class="data_user_input" type="text" />
+          <input name="name_account"class="data_user_input" type="text" />
           <h2>Tipo de cuenta.</h2>
           <select class="data_user_input">
             <option>Cuenta corriente</option>

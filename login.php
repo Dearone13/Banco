@@ -8,7 +8,7 @@
     <title>Login</title>
   </head>
   <body>
-    <form class="enter" action="">
+    <form class="enter" action="Cuenta.php" method="post">
       <div class="enter_div">
         <section class="section">
           <h1 class="section_title">Banco HBC.</h1>

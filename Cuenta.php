@@ -1,37 +1,79 @@
 <?php
-class Account{
+
+interface workAccount
+{
+    public function deposit();
+    public function withdraw();
+}
+
+class Account {
 
     private $numAccount;
     private $userName;
-    private $balance;
+    private $password; 
+    private $typeAccount; 
 
-    public function __construct(){
-        $this->numAccount = null;
-        $this->userName = null;
-        $this->balance = null;
+    public function __construct($numAccount, $userName, $password, $typeAccount)
+    {
+        $this->numAccount = $numAccount;
+        $this->userName = $userName;
+        $this->password = $password;
+        $this->typeAccount = $typeAccount;
+    }
+    
+    public function setNumAccount($numAccount)
+    {
+        $this->numAccount = $numAccount;
+    }
+    
+    public function setUserName($userName)
+    {
+        $this->userName = $userName;
+    }
+    
+    public function setPassword($password)
+    {
+        $this->password = $password;
     }
 
-    public function setnumAccount(){
-
+    public function setTypeAccount($typeAccount)
+    {
+        $this->$typeAccount = $typeAccount;
     }
-    public function setUserName(){
+}
 
+class AccountSaving extends Account implements workAccount{
+
+    public function deposit()
+    {
+   
     }
-    public function setBalance(){
+
+    public function withdraw()
+    {
         
     }
-
-}
-//Implements and extend
-
-interface workAccount{
-    public function createAccount();
-    public function setUserName();
-
 }
 
+class AccountCurrent extends Account implements workAccount{
 
+    public function deposit()
+    {
+       
+    }
 
+    public function withdraw()
+    {
+        
+    }
+}
 
+if($_SERVER["REQUEST_METHOD"] == "POST")
+{
+    $numAccount = $_REQUEST[];
+    $typeAccount = $_REQUEST[];
+    $userName = $_REQUEST[];
+    $password = $_REQUEST[];
 
+}
 ?>
