@@ -53,6 +53,11 @@ class Account
         return $this->userName;
     }
 
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
     public function getTypeAccount()
     {
         return $this->typeAccount;
