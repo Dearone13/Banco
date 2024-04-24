@@ -41,6 +41,29 @@ class Account {
     {
         $this->$typeAccount = $typeAccount;
     }
+
+    public function getNumAccount()
+    {
+        return $this->numAccount;  
+    }
+
+   public function getUserName()
+   {
+    return $this->userName;
+ }
+
+public function getPassword()
+{
+    return $this->password;
+}
+
+public function getTypeAccount()
+{
+    return $this->typeAccount;
+}
+
+
+
 }
 
 class AccountSaving extends Account implements workAccount{
@@ -104,9 +127,9 @@ class AccountCurrent extends Account implements workAccount{
 
     public function withdraw($amount)
     {
-        $amount -= ($amount*4)/1000;
+        $lost = ($amount*4)/1000;
         if(($this->balance - $amount) <= -300.000){
-            $this->balance -= $amount;
+            $this->balance -= $amount + $lost;
         }else{
             $messague = 'Usted excedio su saldo, tendra un sobregiro de $ -300,000';
         }   
