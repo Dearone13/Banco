@@ -16,17 +16,17 @@
         </section>
         <section class="section_user">
           <h2>Número de cuenta</h2>
-          <input name="name_account"class="data_user_input" type="text" />
+          <input name="numAccount" name="name_account"class="data_user_input" type="text" />
           <h2>Tipo de cuenta.</h2>
-          <select class="data_user_input">
+          <select name="typeAccount" class="data_user_input">
             <option>Cuenta corriente</option>
             <option>Cuenta de ahorro</option>
           </select>
           <h2>Nombre Usuario</h2>
-          <input class="data_user_input" type="text" />
+          <input name="userName" class="data_user_input" type="text" />
           <h2>Contraseña</h2>
-          <input class="data_user_input" type="password" />
-          <button class="data_user_button">Registrar.</button>
+          <input name="password" class="data_user_input" type="password" />
+          <input  type="submit" value= "Registrar" class="data_user_button">
         </section>
       </div>
     </form>
