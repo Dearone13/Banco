@@ -473,7 +473,7 @@ function __superWithdraw(){
                 $AccountState = new AccountCurrent($numAccountB, $userNameB, $passwordB, $typeAccountB);
                 $AccountState->setBalance($balanceB);
                 $alert =$AccountState->withdraw($amount);
-                if($alert = 'alert'){
+                if($alert == 'alert'){
                     header('Location: balance.php?alert=incorrecto&numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
                     exit(); 
 

@@ -16,16 +16,16 @@
         </section>
         <section class="section_user">
           <h2>Número de cuenta</h2>
-          <input name="numAccount" name="name_account"class="data_user_input" type="text" />
+          <input required name="numAccount" name="name_account"class="data_user_input" min="00000" max="99999" pattern="^[0-9]{5}$" type="number" />
           <h2>Tipo de cuenta.</h2>
           <select name="typeAccount" class="data_user_input">
             <option>Cuenta corriente</option>
             <option>Cuenta de ahorro</option>
           </select>
           <h2>Nombre Usuario</h2>
-          <input name="userName" class="data_user_input" type="text" />
+          <input name="userName"  pattern="^[a-zA-Záéíóúüñ]+$"required  class="data_user_input" type="text" />
           <h2>Contraseña</h2>
-          <input name="password" class="data_user_input" type="password" />
+          <input required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*_]).{8,}$" name="password" class="data_user_input" type="password" />
           <input  type="submit" value= "Registrar" class="data_user_button">
         </section>
       </div>

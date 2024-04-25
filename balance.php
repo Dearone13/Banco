@@ -24,7 +24,7 @@
     </div>
     <div class="Account">
         <section class="Account_info">
-            <h1>Información de cuenta</h1>
+            <h1 class="info_title">Información de cuenta</h1>
             <fieldset class="Account_info_user">
                 <table class="Account_info_user_table">
                     <tr>
@@ -39,7 +39,7 @@
             </fieldset>
         </section>
         <section class="balance_account">
-            <h1>Saldo</h1>
+            <h1 class="info_title">Saldo</h1>
             <?php 
             if(isset($_GET['typeAccount'])){
                 $type_Account = $_GET['typeAccount'];

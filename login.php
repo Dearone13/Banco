@@ -16,9 +16,9 @@
         </section>
         <section class="section_user">
           <h2 class="data_user">Usuario</h2>
-          <input name="userNameL"class="data_user_input" type="text" />
+          <input name="userNameL"class="data_user_input" type="text"   pattern="^[a-zA-Záéíóúüñ]+$" required/>
           <h2 class="data_user">Contraseña</h2>
-          <input name="passwordL"class="data_user_input" type="password" />
+          <input name="passwordL"class="data_user_input" type="password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*_]).{8,}$" />
           <input type="hidden" name="numAccountC" value="<?php echo isset($_GET['numAccount']) ? htmlspecialchars($_GET['numAccount']) : ''; ?>">
           <input type="hidden" name="userNameC" value="<?php echo isset($_GET['userName']) ? htmlspecialchars($_GET['userName']) : ''; ?>">
           <input type="hidden" name="balanceC" value="<?php echo isset($_GET['saldo']) ? htmlspecialchars($_GET['saldo']) : ''; ?>">
@@ -30,7 +30,7 @@
             echo '<div style="color: red; margin-bottom: 10px; font-weight: bold;" class="alert">Usuario o contraseña incorrectos</div>';
           }
           ?>
-         <input  type="submit" value= "Iniciar Sesion" class="data_user_button">
+         <input  type="submit" value= "Iniciar Sesión" class="data_user_button">
           <h3 class="data_user">
             ¿No tienes una cuenta?<a
               class="section_register"
