@@ -78,7 +78,7 @@ class AccountSaving extends Account implements workAccount{
         $this->userName = $userName;
         $this->password = $password;
         $this->typeAccount = $typeAccount;
-        $this->balance = 200;
+        $this->balance = 0;
 
     }
 
@@ -116,13 +116,6 @@ class AccountSaving extends Account implements workAccount{
 
     }
 
-    public static function getInstance($numAccount, $userName, $password, $typeAccount) {
-        if (!isset(self::$instance)) {
-            self::$instance = new self($numAccount, $userName, $password, $typeAccount);
-        }
-        return self::$instance;
-    }
-
     public function toString() {
         return "Número de cuenta: " . $this->numAccount . ", " . 
                "Nombre de usuario: " . $this->userName . ", " . 
@@ -145,34 +138,29 @@ class AccountCurrent extends Account implements workAccount{
         $this->userName = $userName;
         $this->password = $password;
         $this->typeAccount = $typeAccount;
-        $this->balance = 200;
+        $this->balance = 0;
     }
 
     public function deposit($amount)
-    {
-        $this->balance += $amount;  
+    {   echo "Cantidad deppo".$amount." ".$this->balance ;
+        $this->balance = $this->balance + $amount;  
     }
 
     public function withdraw($amount)
     {
         $lost = ($amount*4)/1000;
-        if(($this->balance - $amount) <= -300.000){
-            $this->balance -= $amount +$lost;
+        if(($this->balance - $amount) >= -300000){
+            $this->balance = $this->balance - ($amount +$lost);
         }else{
-            $messague = 'Usted excedio su saldo, tendra un sobregiro de $ -300,000';
+            return  'alert';
         }   
-        $this->balance -= $amount;
+    }
+    public function setBalance($balance){
+        $this->balance = $balance;
     }
 
     public function getBalance(){
         return $this->balance;
-    }
-
-    public static function getInstance($numAccount, $userName, $password, $typeAccount) {
-        if (!isset(self::$instance)) {
-            self::$instance = new self($numAccount, $userName, $password, $typeAccount);
-        }
-        return self::$instance;
     }
 
     public function toString() {
@@ -245,19 +233,254 @@ function __login($AccountState){
                 header('Location: login.php?alert=incorrecto&numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
                 exit(); 
                }
+    }
+}
+}
 
+function __superBalance(){
+    $paginaAnterior = isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : "Desconocido";
+    if (strpos($paginaAnterior, "balance.php") !== false){
+        if (isset($_POST['deposito'])) {
+            $numAccountB = $_POST["numAccountB"] ;
+            $userNameB = $_POST["userNameB"] ;
+            $balanceB = $_POST["balanceB"] ;
+            $typeAccountB = $_POST["typeAccountB"] ;
+            $passwordB = $_POST["passwordB"] ;
+            if($typeAccountB == "Cuenta corriente"){
+                $AccountState = new AccountCurrent($numAccountB, $userNameB, $passwordB, $typeAccountB);
+                $AccountState->setBalance($balanceB);
+                header('Location: depositar.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
+                exit(); 
+
+            }else{
+                $AccountState = new AccountSaving($numAccountB, $userNameB, $passwordB, $typeAccountB);
+                header('Location: depositar.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
+                exit(); 
+               }
+
+        } elseif (isset($_POST['retiro'])) {
+            $numAccountB = $_POST["numAccountB"] ;
+            $userNameB = $_POST["userNameB"] ;
+            $balanceB = $_POST["balanceB"] ;
+            $typeAccountB = $_POST["typeAccountB"] ;
+            $passwordB = $_POST["typeAccountB"] ;
+            if($typeAccountB == "Cuenta corriente"){
+                $AccountState = new AccountCurrent($numAccountB, $userNameB, $passwordB, $typeAccountB);
+                $AccountState->setBalance($balanceB);
+                header('Location: retirar.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
+                exit(); 
+
+            }else{
+                $AccountState = new AccountSaving($numAccountB, $userNameB, $passwordB, $typeAccountB);
+                header('Location: retirar.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
+                exit(); 
+               }
+        } elseif (isset($_POST['consultar_saldo'])) {
+            $numAccountB = $_POST["numAccountB"] ;
+            $userNameB = $_POST["userNameB"] ;
+            $balanceB = $_POST["balanceB"] ;
+            $typeAccountB = $_POST["typeAccountB"] ;
+            $passwordB = $_POST["passwordB"] ;
+            if($typeAccountB == "Cuenta corriente"){
+                $AccountState = new AccountCurrent($numAccountB, $userNameB, $passwordB, $typeAccountB);
+                echo $balanceB;
+                $AccountState->setBalance($balanceB);
+                echo"saldo: ". $AccountState->getBalance();
+                echo"uSUARIP". $AccountState->toString();
+                header('Location: balance.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
+                exit(); 
+           }else{
+                $AccountState = new AccountSaving($numAccountB, $userNameB, $passwordB, $typeAccountB);
+                header('Location: balance.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
+                exit(); 
+               }
+        } else {
+            echo "No se presionó ningún botón.";
+        }
+    }
+    }
+
+
+
+function __superDeposit(){
+    $paginaAnterior = isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : "Desconocido";
+    if (strpos($paginaAnterior, "depositar.php") !== false){
+        if (isset($_POST['deposito'])) {
+            $numAccountB = $_POST["numAccountB"] ;
+            $userNameB = $_POST["userNameB"] ;
+            $balanceB = $_POST["balanceB"] ;
+            $typeAccountB = $_POST["typeAccountB"] ;
+            $passwordB = $_POST["passwordB"] ;
+            if($typeAccountB == "Cuenta Corriente"){
+                $AccountState = new AccountCurrent($numAccountB, $userNameB, $passwordB, $typeAccountB);
+                header('Location: depositar.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
+                exit(); 
+
+            }else{
+                $AccountState = new AccountSaving($numAccountB, $userNameB, $passwordB, $typeAccountB);
+                header('Location: depositar.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
+                exit(); 
+               }
+
+        } elseif (isset($_POST['retiro'])) {
+            $numAccountB = $_POST["numAccountB"] ;
+            $userNameB = $_POST["userNameB"] ;
+            $balanceB = $_POST["balanceB"] ;
+            $typeAccountB = $_POST["typeAccountB"] ;
+            $passwordB = $_POST["typeAccountB"] ;
+            if($typeAccountB == "Cuenta Corriente"){
+                $AccountState = new AccountCurrent($numAccountB, $userNameB, $passwordB, $typeAccountB);
+                header('Location: retirar.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
+                exit(); 
+
+            }else{
+                $AccountState = new AccountSaving($numAccountB, $userNameB, $passwordB, $typeAccountB);
+                header('Location: retirar.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
+                exit(); 
+               }
+        } elseif (isset($_POST['consultar_saldo'])) {
+            $numAccountB = $_POST["numAccountB"] ;
+            $userNameB = $_POST["userNameB"] ;
+            $balanceB = $_POST["balanceB"] ;
+            $typeAccountB = $_POST["typeAccountB"] ;
+            $passwordB = $_POST["passwordB"] ;
+            if($typeAccountB == "Cuenta Corriente"){
+                $AccountState = new AccountCurrent($numAccountB, $userNameB, $passwordB, $typeAccountB);
+                header('Location: balance.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
+                exit(); 
+           }else{
+                $AccountState = new AccountSaving($numAccountB, $userNameB, $passwordB, $typeAccountB);
+                header('Location: balance.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
+                exit(); 
+               }
+        } elseif(isset($_POST['depositarS'])) {
+            echo 'va a depositar';
+            $numAccountB = $_POST["numAccountB"] ;
+            $userNameB = $_POST["userNameB"] ;
+            $balanceB = $_POST["balanceB"] ;
+            $typeAccountB = $_POST["typeAccountB"] ;
+            $passwordB = $_POST["passwordB"] ;
+            $amount = $_POST["amount"];
+            echo "Cantidad: ".$amount;
+            echo $typeAccountB;
+            if($typeAccountB == "Cuenta corriente"){
+                echo "CantidadD".$amount;
+                $AccountState = new AccountCurrent($numAccountB, $userNameB, $passwordB, $typeAccountB);
+                $AccountState->setBalance($balanceB);
+                $AccountState->deposit($amount);
+                echo $AccountState->getBalance();
+                header('Location: balance.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
+                exit(); 
+           }else{
+                $AccountState = new AccountSaving($numAccountB, $userNameB, $passwordB, $typeAccountB);
+                // header('Location: balance.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
+                // exit(); 
+               }
+         
+        }else{
+            echo "No se presionó ningún botón.";
+        }
     }
 
 }
+
+function __superWithdraw(){
+    $paginaAnterior = isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : "Desconocido";
+    if (strpos($paginaAnterior, "retirar.php") !== false){
+        if (isset($_POST['deposito'])) {
+            $numAccountB = $_POST["numAccountB"] ;
+            $userNameB = $_POST["userNameB"] ;
+            $balanceB = $_POST["balanceB"] ;
+            $typeAccountB = $_POST["typeAccountB"] ;
+            $passwordB = $_POST["passwordB"] ;
+            if($typeAccountB == "Cuenta corriente"){
+                $AccountState = new AccountCurrent($numAccountB, $userNameB, $passwordB, $typeAccountB);
+                header('Location: depositar.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
+                exit(); 
+
+            }else{
+                $AccountState = new AccountSaving($numAccountB, $userNameB, $passwordB, $typeAccountB);
+                header('Location: depositar.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
+                exit(); 
+               }
+
+        } elseif (isset($_POST['retiro'])) {
+            $numAccountB = $_POST["numAccountB"] ;
+            $userNameB = $_POST["userNameB"] ;
+            $balanceB = $_POST["balanceB"] ;
+            $typeAccountB = $_POST["typeAccountB"] ;
+            $passwordB = $_POST["typeAccountB"] ;
+            if($typeAccountB == "Cuenta corriente"){
+                $AccountState = new AccountCurrent($numAccountB, $userNameB, $passwordB, $typeAccountB);
+                $AccountState->setBalance($balanceB);
+                header('Location: retirar.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
+                exit(); 
+
+            }else{
+                $AccountState = new AccountSaving($numAccountB, $userNameB, $passwordB, $typeAccountB);
+                header('Location: retirar.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
+                exit(); 
+               }
+        } elseif (isset($_POST['consultar_saldo'])) {
+            $numAccountB = $_POST["numAccountB"] ;
+            $userNameB = $_POST["userNameB"] ;
+            $balanceB = $_POST["balanceB"] ;
+            $typeAccountB = $_POST["typeAccountB"] ;
+            $passwordB = $_POST["passwordB"] ;
+            if($typeAccountB == "Cuenta corriente"){
+                $AccountState = new AccountCurrent($numAccountB, $userNameB, $passwordB, $typeAccountB);
+                $AccountState->setBalance($balanceB);
+                header('Location: balance.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
+                exit(); 
+           }else{
+                $AccountState = new AccountSaving($numAccountB, $userNameB, $passwordB, $typeAccountB);
+                header('Location: balance.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
+                exit(); 
+               }
+        } elseif(isset($_POST['retirarS'])){
+            $numAccountB = $_POST["numAccountB"] ;
+            $userNameB = $_POST["userNameB"] ;
+            $balanceB = $_POST["balanceB"] ;
+            $amount = $_POST['amount'];
+            $typeAccountB = $_POST["typeAccountB"] ;
+            $passwordB = $_POST["passwordB"] ;
+            if($typeAccountB == "Cuenta corriente"){
+                $AccountState = new AccountCurrent($numAccountB, $userNameB, $passwordB, $typeAccountB);
+                $AccountState->setBalance($balanceB);
+                $alert =$AccountState->withdraw($amount);
+                if($alert = 'alert'){
+                    header('Location: balance.php?alert=incorrecto&numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
+                    exit(); 
+
+                }else{
+                    header('Location: balance.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
+                    exit(); 
+                }
+           
+           }else{
+                $AccountState = new AccountSaving($numAccountB, $userNameB, $passwordB, $typeAccountB);
+                $AccountState->withdraw($amount);
+                header('Location: balance.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
+                exit(); 
+               }
+
+        } else{
+            echo "No se presionó ningún botón.";
+        }
+    }
+
+
 }
+
 
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     $AccountSTate = __Register();
     __login($AccountSTate);
+    __superBalance();
+    __superDeposit();
+    __superWithdraw();
 }
-
-
 
 ?>
 

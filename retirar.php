@@ -8,13 +8,18 @@
     <title>Retirar</title>
   </head>
   <body class="body_balance">
-   <form class="form_account">
+   <form class="form_account" action="Cuenta.php" method="post">
+          <input type="hidden" name="numAccountB" value="<?php echo htmlspecialchars($_GET['numAccount']); ?>">
+          <input type="hidden" name="userNameB" value="<?php echo htmlspecialchars($_GET['userName']) ; ?>">
+          <input type="hidden" name="balanceB" value="<?php echo htmlspecialchars($_GET['saldo']) ; ?>">
+          <input type="hidden" name="typeAccountB" value="<?php echo htmlspecialchars($_GET['typeAccount']); ?>">
+          <input type="hidden" name="passwordB" value="<?php echo htmlspecialchars($_GET['password']) ; ?>">
     <div class="sidebar">
       <span class="material-symbols-outlined">menu</span>
            <ul class="sidebar_ul">
-             <li><a>Depósito</a></li>
-             <li><a>Retiro</a></li>
-             <li class="sidebar_ul_balance"><a>Consultar Saldo</a></li>
+           <li class="sidebar_ul_balance"><button class="sidebar_button" type="submit" name="deposito">Depósito</button></li>
+           <li class="sidebar_ul_balance"><button class="sidebar_button" type="submit" name="retiro">Retiro</button></li>
+           <li class="sidebar_ul_balance"><button class="sidebar_button" type="submit" name="consultar_saldo">Consultar Saldo</button></li>
            </ul>
     </div>
     <div class="div_money">
@@ -22,31 +27,31 @@
       <table class="div_money_table2">
         <tr class="div_money_table2_tr">
           <td>Número de cuenta: </td>
-          <td></td>
+          <td><?php echo htmlspecialchars($_GET['numAccount']); ?></td>
         </tr>
         <tr class="div_money_table2_tr_clear">
           <td class="div_money_table2_td">Nombre de usuario: </td>
-          <td class="div_money_table2_td"></td>
+          <td class="div_money_table2_td"><?php echo htmlspecialchars($_GET['userName']); ?></td>
         </tr>
         <tr class="div_money_table2_tr">
           <td>Tipo de cuenta: </td>
-          <td><select class="div_money_table2_tr_select">
-            <option>Cuenta Corriente</option>
-            <option>Cuenta de ahorro</option>
-          </select></td>
+          <td><?php echo htmlspecialchars($_GET['typeAccount']); ?></td>
+        </tr>
+        <tr class="div_money_table2_tr_clear">
+          <td>Monto: </td>
+          <td>
+        <select name="amount" class="section_value_move">
+          <option value="" selected>Retirar +</option>
+          <option>10000</option>
+          <option>100000</option>
+          <option>300000</option>
+          <option>500000</option>
+          <option>1000000</option>
+          <option>1500000</option>
+        </select></td>
         </tr>
       </table>
-      <section class="section_value"> 
-        <select class="section_value_move">
-          <option value="" selected>Retirar +</option>
-          <option>$10.000</option>
-          <option>$100.000</option>
-          <option>$300.000</option>
-          <option>$500.000</option>
-          <option>$1.000.000</option>
-          <option>$1.500.000</option>
-        </select>
-        <button class="section_value_move">Cancelar</button>
+        <button class="section_value_move_S" type="submit" name="retirarS">Retirar - <button>
       </section>
      
     </div>

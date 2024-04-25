@@ -144,8 +144,16 @@ li
   align-items: center;
   justify-content: center;
 }
+.sidebar_button{
+   background-color: #023047;
+   color: white;
+   border: none;
+   font-weight: bold;
+}
+
 .sidebar_ul_balance{
   text-align: center;
+  background-color: #023047;
 }
 
 .Account
@@ -189,22 +197,22 @@ legend{
   display: flex;
   flex-direction: column;
   align-items: left;
-  padding-right: 50px;
-  padding-left: 50px;
-  height: 90vh;
+  padding-right: 30px;
+  padding-left: 30px;
+  height: 80vh;
 }
 .div_money_title{
     margin-bottom: 30px;
-    font-size: 80px;
+    font-size: 70px;
 }
 .div_money_table2{
-    gap:60px;
+    gap:40px;
     border-collapse: collapse;
     border: 3px solid #FB8500;
     font-size: 60px;
 }
 .div_money_table2_tr, .div_money_table2_tr_clear{
-    height: 20vh;
+    height: 16vh;
     margin-bottom: 20px;
     border: 4px solid #FB8500;
     background-color: #FFB561;
@@ -230,7 +238,20 @@ legend{
     place-items: center;
     color: #023047;
 }
+.section_value_move_S{
+  margin-top: 30px;
+  align-self: center;
+  height: 50vh;
+  width: 30vh;
+  font-size:30px ;
+  font-weight: bold;
+  background-color: #FB8500;
+  border: 2px solid  #FB8500;
+  border-radius: 10px;
+
+}
 .section_value_move{
+    align-self: center;
     height: 10vh;
     width: 40vh;
     font-size:30px ;
@@ -238,6 +259,7 @@ legend{
     background-color: #FB8500;
     border: 2px solid  #FB8500;
     border-radius: 10px;
+    margin-bottom: 20px;
     
 }
 
