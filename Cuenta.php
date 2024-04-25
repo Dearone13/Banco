@@ -90,10 +90,17 @@ class AccountSaving extends Account implements workAccount{
     public function withdraw($amount)
     {
 
-        if($amount <= $this->balance){
+        if(($amount <= $this->balance) && ($this->balance -$amount) >= 0){
             $this->balance -= $amount;
         }
+        else{
+            return 'alert';
+        }
 
+    }
+
+    public function setBalance($balance){
+        $this->balance = $balance;
     }
 
     public function getBalance(){
@@ -109,9 +116,11 @@ class AccountSaving extends Account implements workAccount{
         $endDate = strtotime('2023-12-31');
         $randomDate = rand($startDate,$endDate);
         $randomDateS = date('Y-m-d',$randomDate);
+        // date('d',$randomDate);
         $day = date('d',$randomDate);
-        if($day == '01'){
+        if($day == 1){
             $this->balance += $this->balance*0.05;
+            return 'first';
         }
 
     }
@@ -254,6 +263,7 @@ function __superBalance(){
 
             }else{
                 $AccountState = new AccountSaving($numAccountB, $userNameB, $passwordB, $typeAccountB);
+                $AccountState->setBalance($balanceB);
                 header('Location: depositar.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
                 exit(); 
                }
@@ -272,6 +282,7 @@ function __superBalance(){
 
             }else{
                 $AccountState = new AccountSaving($numAccountB, $userNameB, $passwordB, $typeAccountB);
+                $AccountState->setBalance($balanceB);
                 header('Location: retirar.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
                 exit(); 
                }
@@ -291,6 +302,7 @@ function __superBalance(){
                 exit(); 
            }else{
                 $AccountState = new AccountSaving($numAccountB, $userNameB, $passwordB, $typeAccountB);
+                $AccountState->setBalance($balanceB);
                 header('Location: balance.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
                 exit(); 
                }
@@ -318,6 +330,7 @@ function __superDeposit(){
 
             }else{
                 $AccountState = new AccountSaving($numAccountB, $userNameB, $passwordB, $typeAccountB);
+                $AccountState->setBalance($balanceB);
                 header('Location: depositar.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
                 exit(); 
                }
@@ -330,6 +343,7 @@ function __superDeposit(){
             $passwordB = $_POST["typeAccountB"] ;
             if($typeAccountB == "Cuenta Corriente"){
                 $AccountState = new AccountCurrent($numAccountB, $userNameB, $passwordB, $typeAccountB);
+                $AccountState->setBalance($balanceB);
                 header('Location: retirar.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
                 exit(); 
 
@@ -346,10 +360,12 @@ function __superDeposit(){
             $passwordB = $_POST["passwordB"] ;
             if($typeAccountB == "Cuenta Corriente"){
                 $AccountState = new AccountCurrent($numAccountB, $userNameB, $passwordB, $typeAccountB);
+                $AccountState->setBalance($balanceB);
                 header('Location: balance.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
                 exit(); 
            }else{
                 $AccountState = new AccountSaving($numAccountB, $userNameB, $passwordB, $typeAccountB);
+                $AccountState->setBalance($balanceB);
                 header('Location: balance.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
                 exit(); 
                }
@@ -373,8 +389,16 @@ function __superDeposit(){
                 exit(); 
            }else{
                 $AccountState = new AccountSaving($numAccountB, $userNameB, $passwordB, $typeAccountB);
-                // header('Location: balance.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
-                // exit(); 
+                $AccountState->setBalance($balanceB);
+                $AccountState->deposit($amount);
+                $first = $AccountState->Percentage();
+                if($first == 'first'){
+                    header('Location: balance.php?alert=first&numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
+                    exit(); 
+                }else{
+                    header('Location: balance.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
+                    exit(); 
+                }
                }
          
         }else{
@@ -434,6 +458,7 @@ function __superWithdraw(){
                 exit(); 
            }else{
                 $AccountState = new AccountSaving($numAccountB, $userNameB, $passwordB, $typeAccountB);
+                $AccountState->setBalance($balanceB);
                 header('Location: balance.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
                 exit(); 
                }
@@ -459,9 +484,24 @@ function __superWithdraw(){
            
            }else{
                 $AccountState = new AccountSaving($numAccountB, $userNameB, $passwordB, $typeAccountB);
-                $AccountState->withdraw($amount);
-                header('Location: balance.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
-                exit(); 
+                $AccountState->setBalance($balanceB);
+                $alert = $AccountState->withdraw($amount);
+                $first = $AccountState->Percentage();
+                if($alert == 'alert'){
+                    header('Location: balance.php?alert=saldo&numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
+                    exit(); 
+                }else{
+                    header('Location: balance.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
+                    exit(); 
+                }
+                if($first == 'first'){
+                    header('Location: balance.php?alert=first&numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
+                    exit(); 
+                }else{
+                    header('Location: balance.php?numAccount=' . urlencode($AccountState->getNumAccount()) . '&userName=' . urlencode($AccountState->getUserName()) . '&saldo=' . urlencode($AccountState->getBalance()) . '&typeAccount=' . urlencode($AccountState->getTypeAccount()) . '&password=' . urlencode($AccountState->getPassword()));
+                    exit(); 
+                }
+             
                }
 
         } else{

@@ -92,6 +92,17 @@
             echo '<div style="color: red; margin-bottom: 10px; font-weight: bold;" class="alert">Usted excedio su saldo, tendra un sobregiro aproximado de $ -300,000</div>';
           }
           ?> 
+        <?php
+        if (isset($_GET['alert']) && $_GET['alert'] === 'saldo') {
+            echo '<div style="color: red; margin-bottom: 10px; font-weight: bold;" class="alert">Su retiro no puede ser mayor a su saldo o dejar saldo negativo</div>';
+          }
+          ?> 
+          <?php
+           if (isset($_GET['alert']) && $_GET['alert'] === 'first') {
+            echo '<div style="color: green; margin-bottom: 10px; font-weight: bold;" class="alert">Aumento por primer día del mes</div>';
+          }
+          ?> 
+          
     </div>
 </form>
 </body>
